@@ -1,19 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useAppSelector } from "@/hooks/store";
+import { addRecord, removeRecord } from "@/slices/records";
+import { useDispatch } from "react-redux";
 import uniqid from "uniqid";
 
 export default function HomePage() {
-    const [cupVolume, setCupVolume] = useState(300); // ml
-    const [progressGoal, setProgressGoal] = useState(2700); // ml
-    const [records, setRecords] = useState([
-        {
-            id: uniqid(),
-            time: new Date(),
-            cupVolume: 300
-        }
-    ]);
+    const records = useAppSelector((state) => state.records.value);
 
     const progress = records.reduce((acc, record) => acc + record.cupVolume, 0);
+
+    const progressGoal = useAppSelector((state) => state.progressGoal.value);
+    const cupVolume = useAppSelector((state) => state.cupVolume.value);
+
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -30,29 +29,26 @@ export default function HomePage() {
             </div>
             <Button
                 onClick={() => {
-                    setRecords([
-                        ...records,
-                        {
+                    dispatch(
+                        addRecord({
                             id: uniqid(),
-                            time: new Date(),
+                            time: new Date().toISOString(),
                             cupVolume
-                        }
-                    ]);
+                        })
+                    );
                 }}
             >
                 drink ({cupVolume} ml)
             </Button>
-            <Button>cup type</Button>
-            <Button>add record</Button>
             <div>
                 <h2>today's records</h2>
                 <ul>
                     {records.map((record) => (
                         <li key={record.id}>
-                            {record.time.toLocaleTimeString()} - {record.cupVolume} ml
+                            {new Date(record.time).toLocaleTimeString()} - {record.cupVolume} ml
                             <Button
                                 onClick={() => {
-                                    setRecords(records.filter((r) => r.id !== record.id));
+                                    dispatch(removeRecord(record.id));
                                 }}
                                 variant="destructive"
                             >
