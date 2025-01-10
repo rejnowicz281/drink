@@ -24,9 +24,10 @@ export default function AddRecordForm({ onSuccess }: { onSuccess?: () => void })
                 e.preventDefault();
                 console.log(time, cupVolume);
 
-                if (time && time.isValid() && cupVolume) {
+                if (time && time.isValid() && cupVolume && typeof cupVolume === "number" && cupVolume > 0) {
                     onSuccess && onSuccess();
                     dispatch(addRecord({ id: uniqid(), time: time.toISOString(), cupVolume: Number(cupVolume) }));
+
                     setTime(dayjs());
                     setCupVolume(0);
                 }

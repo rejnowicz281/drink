@@ -30,7 +30,7 @@ export default function ProgressContainer() {
             </div>
             <Button
                 onClick={() => {
-                    if (cupVolume)
+                    if (cupVolume && typeof cupVolume === "number" && cupVolume > 0)
                         dispatch(
                             addRecord({
                                 id: uniqid(),
