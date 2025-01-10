@@ -30,13 +30,14 @@ export default function ProgressContainer() {
             </div>
             <Button
                 onClick={() => {
-                    dispatch(
-                        addRecord({
-                            id: uniqid(),
-                            time: dayjs().toISOString(),
-                            cupVolume
-                        })
-                    );
+                    if (cupVolume)
+                        dispatch(
+                            addRecord({
+                                id: uniqid(),
+                                time: dayjs().toISOString(),
+                                cupVolume
+                            })
+                        );
                 }}
             >
                 drink ({cupVolume} ml)
