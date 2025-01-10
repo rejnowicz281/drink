@@ -1,5 +1,6 @@
 import { Record } from "@/lib/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 import uniqid from "uniqid";
 
 interface RecordsState {
@@ -10,7 +11,7 @@ const initialState: RecordsState = {
     value: [
         {
             id: uniqid(),
-            time: new Date().toISOString(),
+            time: dayjs().toISOString(),
             cupVolume: 300
         }
     ]
