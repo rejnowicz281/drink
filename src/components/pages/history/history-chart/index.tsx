@@ -3,7 +3,7 @@ import { useAppSelector } from "@/hooks/store";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { Button } from "../ui/button";
+import { Button } from "../../../ui/button";
 
 const chartConfig = {
     percentage: {
