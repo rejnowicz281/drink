@@ -1,16 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { useAppDispatch } from "@/hooks/store";
+import { useDispatch } from "@/hooks/store";
 import { Record } from "@/lib/types";
 import { removeRecord } from "@/slices/records";
+import dayjs from "dayjs";
 
 export default function RecordContainer({ record }: { record: Record }) {
-    const dispatch = useAppDispatch();
+    const dispatch = useDispatch();
 
     return (
         <div>
-            {new Date(record.time).toLocaleTimeString()} - {record.cupVolume} ml
+            {dayjs(record.time).toString()} - {record.cupVolume} ml
             <Button onClick={() => dispatch(removeRecord(record.id))} variant="destructive">
-                delete
+                Delete
             </Button>
         </div>
     );

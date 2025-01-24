@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useState } from "react";
@@ -8,7 +9,9 @@ export default function AddRecordDialog() {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger>Add Record</DialogTrigger>
+            <DialogTrigger asChild>
+                <Button variant="outline">Add Record</Button>
+            </DialogTrigger>
 
             <DialogContent>
                 <DialogHeader>

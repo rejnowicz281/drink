@@ -1,9 +1,9 @@
-import { useAppSelector } from "@/hooks/store";
+import { useGetTodayRecords } from "@/hooks/store/records";
 import AddRecordDialog from "./add-record-dialog";
 import RecordContainer from "./record-container";
 
 export default function TodayRecords() {
-    const records = useAppSelector((state) => state.records.value);
+    const records = useGetTodayRecords();
 
     return (
         <>
