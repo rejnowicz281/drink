@@ -3,7 +3,8 @@ import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { useGetMonthProgressPercentages, useGetYearProgressPercentages } from "@/hooks/store/progress-goal";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Tooltip, TooltipProps, XAxis, YAxis } from "recharts";
+import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 const chartConfig = {
     percentage: {
@@ -55,6 +56,29 @@ export default function HistoryChart() {
     const monthProgressData = useGetMonthProgressPercentages(month, year);
     const yearProgressData = useGetYearProgressPercentages(year);
 
+    const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="bg-zinc-900 border border-gray-200 p-2 rounded-lg">
+                    {(isMonthMode && (
+                        <p>
+                            <b>
+                                {dayjs().month(month).format("MMMM")} {label}, {year}
+                            </b>{" "}
+                            : Reached <b>{payload[0].value} %</b> of the progress goal
+                        </p>
+                    )) || (
+                        <p>
+                            <b>{label}</b> : Reached <b>{payload[0].value} %</b> of the progress goal
+                        </p>
+                    )}
+                </div>
+            );
+        }
+
+        return null;
+    };
+
     return (
         <>
             <div className="flex flex-col items-start">
@@ -82,7 +106,7 @@ export default function HistoryChart() {
             </div>
             <ChartContainer config={chartConfig} className="max-h-[500px] overflow-hidden flex-1">
                 <BarChart accessibilityLayer data={isMonthMode ? monthProgressData : yearProgressData}>
-                    <Tooltip />
+                    <Tooltip content={<CustomTooltip />} />
                     <CartesianGrid />
                     <XAxis
                         dataKey={isMonthMode ? "day" : "month"}

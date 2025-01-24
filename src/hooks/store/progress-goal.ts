@@ -37,7 +37,9 @@ export const useGetMonthProgressPercentages = (month: number, year: number) => {
 
         return {
             day: day.toString(),
-            percentage: (recordsForDay.reduce((acc, record) => acc + record.cupVolume, 0) / progressGoal) * 100
+            percentage: Math.round(
+                (recordsForDay.reduce((acc, record) => acc + record.cupVolume, 0) / progressGoal) * 100
+            )
         };
     });
 };
@@ -45,13 +47,14 @@ export const useGetMonthProgressPercentages = (month: number, year: number) => {
 // Return the average progress percentage of each month in a year
 export const useGetYearProgressPercentages = (year: number) => {
     return Array.from({ length: 12 }).map((_, index) => {
-        const monthFormatted = dayjs().month(index).format("MMM");
+        const monthFormatted = dayjs().month(index).format("MMMM");
         const progressPercentages = useGetMonthProgressPercentages(index, year);
 
         return {
             month: monthFormatted,
-            percentage:
+            percentage: Math.round(
                 progressPercentages.reduce((acc, { percentage }) => acc + percentage, 0) / progressPercentages.length
+            )
         };
     });
 };
