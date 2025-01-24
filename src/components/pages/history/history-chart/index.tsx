@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
-import { useGetMonthProgressPercentages } from "@/hooks/store/progress-goal";
+import { useGetMonthProgressPercentages, useGetYearProgressPercentages } from "@/hooks/store/progress-goal";
 import dayjs from "dayjs";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 
 const chartConfig = {
@@ -13,37 +13,84 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function HistoryChart() {
-    const year = useRef(dayjs().year());
-    const [month, setMonth] = useState(dayjs().month());
+    const [chartMode, setChartMode] = useState<"byMonth" | "byYear">("byMonth");
+
+    const toggleChartMode = () => {
+        setChartMode((prev) => (prev === "byMonth" ? "byYear" : "byMonth"));
+    };
+
+    const isMonthMode = chartMode === "byMonth";
+
+    const [{ month, year }, setDate] = useState({
+        month: dayjs().month(),
+        year: dayjs().year()
+    });
 
     const setMonthHandler = (month: number) => {
         if (month < 0) {
-            setMonth(11);
-            year.current = year.current - 1;
+            setDate({
+                month: 11,
+                year: year - 1
+            });
         } else if (month > 11) {
-            setMonth(0);
-            year.current = year.current + 1;
+            setDate({
+                month: 0,
+                year: year + 1
+            });
         } else {
-            setMonth(month);
+            setDate({
+                month,
+                year
+            });
         }
     };
 
-    const progressData = useGetMonthProgressPercentages(month, year.current);
+    const setYearHandler = (year: number) => {
+        setDate({
+            month,
+            year
+        });
+    };
+
+    const monthProgressData = useGetMonthProgressPercentages(month, year);
+    const yearProgressData = useGetYearProgressPercentages(year);
 
     return (
         <>
             <div className="flex flex-col items-start">
-                <Button onClick={() => setMonthHandler(month - 1)}>Previous Month</Button>
+                <Button onClick={toggleChartMode}>{isMonthMode ? "Show by Year" : "Show by Month"}</Button>
+                <Button
+                    onClick={() => {
+                        if (isMonthMode) setMonthHandler(month - 1);
+                        else setYearHandler(year - 1);
+                    }}
+                >
+                    Previous {isMonthMode ? "Month" : "Year"}
+                </Button>
                 <span>
-                    {dayjs().month(month).format("MMMM")}, {year.current}
+                    {chartMode === "byMonth" && `${dayjs().month(month).format("MMMM")}, `}
+                    {year}
                 </span>
-                <Button onClick={() => setMonthHandler(month + 1)}>Next Month</Button>
+                <Button
+                    onClick={() => {
+                        if (chartMode === "byMonth") setMonthHandler(month + 1);
+                        else setYearHandler(year + 1);
+                    }}
+                >
+                    Next {isMonthMode ? "Month" : "Year"}
+                </Button>
             </div>
-            <ChartContainer config={chartConfig} className="min-h-[200px] max-w-[500px] w-full">
-                <BarChart accessibilityLayer data={progressData}>
+            <ChartContainer config={chartConfig} className="max-h-[500px] overflow-hidden flex-1">
+                <BarChart accessibilityLayer data={isMonthMode ? monthProgressData : yearProgressData}>
                     <Tooltip />
                     <CartesianGrid />
-                    <XAxis dataKey="day" tickLine={true} tickMargin={10} axisLine={true} interval={1} />
+                    <XAxis
+                        dataKey={isMonthMode ? "day" : "month"}
+                        tickLine={true}
+                        tickMargin={10}
+                        axisLine={true}
+                        interval={1}
+                    />
                     <YAxis
                         allowDataOverflow={true}
                         label={{ value: "(%)", position: "insideTopLeft", offset: 0 }}

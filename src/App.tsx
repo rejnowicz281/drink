@@ -17,7 +17,7 @@ function App() {
                         <Routes>
                             <Route
                                 element={
-                                    <div>
+                                    <div className="flex-1 flex flex-col">
                                         <Button asChild>
                                             <Link to="/">Home</Link>
                                         </Button>
