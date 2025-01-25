@@ -22,7 +22,7 @@ export const recordsSlice = createSlice({
     initialState,
     reducers: {
         addRecord: (state, action: PayloadAction<Record>) => {
-            state.value.push(action.payload);
+            state.value.unshift(action.payload);
         },
         removeRecord: (state, action: PayloadAction<string>) => {
             state.value = state.value.filter((record) => record.id !== action.payload);

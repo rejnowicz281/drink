@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import AddRecordForm from "./add-record-form";
 
@@ -10,7 +11,9 @@ export default function AddRecordDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">Add Record</Button>
+                <Button variant="ghost" size="icon">
+                    <Plus />
+                </Button>
             </DialogTrigger>
 
             <DialogContent>

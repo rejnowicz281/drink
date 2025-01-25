@@ -19,7 +19,7 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
                     Settings
                 </NavButton>
             </div>
-            {children}
+            <div className="flex-1 flex flex-col p-12">{children}</div>
         </div>
     );
 };
