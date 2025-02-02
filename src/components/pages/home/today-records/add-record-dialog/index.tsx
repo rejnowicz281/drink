@@ -23,7 +23,7 @@ export default function AddRecordDialog() {
                         Add a record of drinking water in the past that you forgot to confirm
                     </DialogDescription>
                 </DialogHeader>
-                <AddRecordForm onSuccess={() => setOpen(false)} />
+                <AddRecordForm submitButtonClassName="self-end" onSuccess={() => setOpen(false)} />
             </DialogContent>
         </Dialog>
     );

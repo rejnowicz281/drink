@@ -1,5 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useDispatch, useSelector } from "@/hooks/store";
 import { setCupVolume } from "@/slices/cup-volume";
@@ -29,6 +37,7 @@ export default function CupVolumeChanger() {
                         Change the volume of your cup to adjust the amount of water you drink.
                     </DialogDescription>
                 </DialogHeader>
+
                 <Input
                     placeholder="Change cup volume"
                     type="number"
@@ -36,9 +45,11 @@ export default function CupVolumeChanger() {
                     onChange={(e) => dispatch(setCupVolume(Number(e.target.value) || 0))}
                 />
 
-                <DialogClose asChild>
-                    <Button>Save</Button>
-                </DialogClose>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button>Save</Button>
+                    </DialogClose>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     );

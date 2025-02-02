@@ -1,20 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useDispatch, useSelector } from "@/hooks/store";
 import { addRecord } from "@/slices/records";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import { useState } from "react";
 import uniqid from "uniqid";
 
-export default function AddRecordForm({ onSuccess }: { onSuccess?: () => void }) {
+export default function AddRecordForm({
+    onSuccess,
+    submitButtonClassName
+}: {
+    onSuccess?: () => void;
+    submitButtonClassName?: string;
+}) {
     const defaultCupVolume = useSelector((state) => state.cupVolume.value);
 
-    const [time, setTime] = useState<dayjs.Dayjs | null>(dayjs());
-    const [cupVolume, setCupVolume] = useState<number | string>(defaultCupVolume || "");
+    const [time, setTime] = useState<string | undefined>(dayjs().format("HH:mm"));
+    const [cupVolume, setCupVolume] = useState<number | undefined>(defaultCupVolume || undefined);
 
     const dispatch = useDispatch();
 
@@ -23,40 +25,31 @@ export default function AddRecordForm({ onSuccess }: { onSuccess?: () => void })
             onSubmit={(e) => {
                 e.preventDefault();
 
-                if (time && time.isValid() && cupVolume && typeof cupVolume === "number" && cupVolume > 0) {
+                if (time && cupVolume && typeof cupVolume === "number" && cupVolume > 0) {
                     onSuccess?.();
-                    dispatch(addRecord({ id: uniqid(), time: time.toISOString(), cupVolume: Number(cupVolume) }));
 
-                    setTime(dayjs());
-                    setCupVolume(0);
+                    const today = dayjs().format("YYYY-MM-DD");
+
+                    const dateTime = dayjs(`${today} ${time}`).toISOString();
+
+                    dispatch(addRecord({ id: uniqid(), time: dateTime, cupVolume: Number(cupVolume) }));
                 }
             }}
+            className="flex flex-col gap-6"
         >
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <TimePicker
-                    disableOpenPicker
-                    className="bg-white"
-                    onChange={(value) => {
-                        setTime(value);
-                    }}
-                    value={time}
-                />
-            </LocalizationProvider>
-            <div>
-                <Label>Cup Volume (ml)</Label>
-                <Input
-                    type="number"
-                    value={cupVolume}
-                    onChange={(e) => {
-                        const value = e.target.valueAsNumber;
+            <Input label="Time" id="time" type="time" value={time} onChange={(e) => setTime(e.target.value)} />
 
-                        if (!value) setCupVolume("");
-                        else setCupVolume(value);
-                    }}
-                />
-            </div>
+            <Input
+                label="Cup volume (ml)"
+                id="volume"
+                type="number"
+                value={cupVolume}
+                onChange={(e) => setCupVolume(e.target.valueAsNumber)}
+            />
 
-            <Button type="submit">Add Record</Button>
+            <Button className={submitButtonClassName} type="submit">
+                Add Record
+            </Button>
         </form>
     );
 }
