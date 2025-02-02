@@ -5,7 +5,7 @@ import { DialogDescription } from "@radix-ui/react-dialog";
 import { ReactNode, useState } from "react";
 
 interface RecordFormDialogProps {
-    dialogTrigger: ReactNode;
+    dialogTrigger?: ReactNode;
     title?: string;
     description?: string;
     record?: Record;
@@ -13,11 +13,11 @@ interface RecordFormDialogProps {
 }
 
 export default function RecordFormDialog({ dialogTrigger, title, description, record, today }: RecordFormDialogProps) {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(dialogTrigger ? false : true);
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>{dialogTrigger}</DialogTrigger>
+            {dialogTrigger && <DialogTrigger asChild>{dialogTrigger}</DialogTrigger>}
 
             <DialogContent>
                 <DialogHeader>
