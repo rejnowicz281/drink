@@ -1,9 +1,10 @@
+import RecordFormDialog from "@/components/records/record-form/dialog";
 import { Button } from "@/components/ui/button";
 import { useDispatch } from "@/hooks/store";
 import { Record } from "@/lib/types";
 import { removeRecord } from "@/slices/records";
 import dayjs from "dayjs";
-import { GlassWater, Trash } from "lucide-react";
+import { Edit, GlassWater, Trash } from "lucide-react";
 
 export default function RecordContainer({ record }: { record: Record }) {
     const dispatch = useDispatch();
@@ -17,14 +18,25 @@ export default function RecordContainer({ record }: { record: Record }) {
                     <div className="text-sm text-gray-400">{record.cupVolume} ml</div>
                 </div>
 
-                <Button
-                    className="hover:bg-zinc-700"
-                    size="icon"
-                    variant="ghost"
-                    onClick={() => dispatch(removeRecord(record.id))}
-                >
-                    <Trash className="text-gray-500" />
-                </Button>
+                <div className="flex gap-2 items-center">
+                    <RecordFormDialog
+                        record={record}
+                        dialogTrigger={
+                            <Button className="hover:bg-zinc-700" size="icon" variant="ghost">
+                                <Edit className="text-gray-500" />
+                            </Button>
+                        }
+                        today={true}
+                    />
+                    <Button
+                        className="hover:bg-zinc-700"
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => dispatch(removeRecord(record.id))}
+                    >
+                        <Trash className="text-gray-500" />
+                    </Button>
+                </div>
             </div>
         </div>
     );
