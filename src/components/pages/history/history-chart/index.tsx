@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import dayjs from "dayjs";
-import { Chart } from "./components/chart";
+import { Chart } from "./chart";
 import { useHistoryChart } from "./use-history-chart";
 
 export function HistoryChart() {
