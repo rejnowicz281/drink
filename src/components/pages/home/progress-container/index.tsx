@@ -8,9 +8,9 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import { useDispatch } from "react-redux";
 import SlotCounter from "react-slot-counter";
 import uniqid from "uniqid";
-import CupVolumeChanger from "../cup-volume-changer";
+import { CupVolumeChanger } from "../cup-volume-changer";
 
-export default function ProgressContainer() {
+export function ProgressContainer() {
     const progress = useGetTodayProgress();
 
     const progressGoal = useSelector((state) => state.progressGoal.value);

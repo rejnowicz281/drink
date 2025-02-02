@@ -3,7 +3,7 @@ import { useTheme } from "@/providers/theme-provider";
 import { MoonStar, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function ThemeButton() {
+export function ThemeButton() {
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 

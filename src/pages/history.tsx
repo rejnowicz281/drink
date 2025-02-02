@@ -1,8 +1,6 @@
-import AddRecordDialog from "@/components/pages/history/add-record-dialog";
-import HistoryChart from "@/components/pages/history/history-chart";
-import { WeeklyCompletion } from "@/components/pages/history/weekly-completion";
+import { AddRecordDialog, HistoryChart, WeeklyCompletion } from "@/components/pages/history";
 
-export default function HistoryPage() {
+export function HistoryPage() {
     return (
         <>
             <AddRecordDialog />

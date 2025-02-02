@@ -1,7 +1,6 @@
-import ProgressContainer from "@/components/pages/home/progress-container";
-import TodayRecords from "@/components/pages/home/today-records";
+import { ProgressContainer, TodayRecords } from "@/components/pages/home";
 
-export default function HomePage() {
+export function HomePage() {
     return (
         <div className="flex-1 flex flex-col gap-12">
             <ProgressContainer />

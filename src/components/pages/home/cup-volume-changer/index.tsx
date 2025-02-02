@@ -14,7 +14,7 @@ import { setCupVolume } from "@/slices/cup-volume";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { GlassWater, RefreshCcw } from "lucide-react";
 
-export default function CupVolumeChanger() {
+export function CupVolumeChanger() {
     const cupVolume = useSelector((state) => state.cupVolume.value);
 
     const dispatch = useDispatch();

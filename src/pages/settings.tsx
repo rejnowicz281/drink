@@ -1,4 +1,4 @@
-import ThemeButton from "@/components/general/theme-button";
+import { ThemeButton } from "@/components/pages/settings";
 
 export const SettingsPage = () => {
     return (

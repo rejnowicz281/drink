@@ -1,10 +1,8 @@
 import { Provider } from "react-redux";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import { MainLayout } from "./components/layouts/main-layout";
+import { MainLayout } from "./components/layouts";
 import store from "./lib/store";
-import HistoryPage from "./pages/history";
-import HomePage from "./pages/home";
-import { SettingsPage } from "./pages/settings";
+import { HistoryPage, HomePage, SettingsPage } from "./pages";
 import { ThemeProvider } from "./providers/theme-provider";
 
 function App() {

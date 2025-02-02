@@ -13,7 +13,7 @@ const chartConfig = {
     }
 } satisfies ChartConfig;
 
-export default function HistoryChart() {
+export function HistoryChart() {
     const [chartMode, setChartMode] = useState<"byMonth" | "byYear">("byMonth");
 
     const toggleChartMode = () => {

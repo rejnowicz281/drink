@@ -24,12 +24,17 @@ export const recordsSlice = createSlice({
         addRecord: (state, action: PayloadAction<Record>) => {
             state.value.unshift(action.payload);
         },
+        editRecord: (state, action: PayloadAction<Record>) => {
+            const recordIndex = state.value.findIndex((record) => record.id === action.payload.id);
+
+            if (recordIndex !== -1) state.value[recordIndex] = action.payload;
+        },
         removeRecord: (state, action: PayloadAction<string>) => {
             state.value = state.value.filter((record) => record.id !== action.payload);
         }
     }
 });
 
-export const { addRecord, removeRecord } = recordsSlice.actions;
+export const { addRecord, editRecord, removeRecord } = recordsSlice.actions;
 
 export default recordsSlice.reducer;

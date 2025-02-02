@@ -2,7 +2,7 @@ import { useGetTodayRecords } from "@/hooks/store/records";
 import AddRecordDialog from "./add-record-dialog";
 import RecordContainer from "./record-container";
 
-export default function TodayRecords() {
+export function TodayRecords() {
     const records = useGetTodayRecords();
 
     return (
